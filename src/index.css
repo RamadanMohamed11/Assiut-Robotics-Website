@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+  50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+  100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes lightningFlash {
+  0%, 100% { opacity: 0; transform: scaleY(0); }
+  50% { opacity: 1; transform: scaleY(1); }
+}
+
+@keyframes circuitFlow {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes powerPulse {
+  0% { text-shadow: 0 0 5px rgba(96, 165, 250, 0.5); }
+  50% { text-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 30px rgba(96, 165, 250, 0.6); }
+  100% { text-shadow: 0 0 5px rgba(96, 165, 250, 0.5); }
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.8s ease-out;
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-rotate {
+  animation: rotate 20s linear infinite;
+}
+
+.animate-shine {
+  animation: shine 3s infinite linear;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+.hero-pattern {
+  background-color: #1e3a8a;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f46e5' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hardware-bg {
+  background-image: url("https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=2000&q=80");
+  background-size: cover;
+}
+
+.embedded-bg {
+  background-image: url("https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=2000&q=80");
+  background-size: cover;
+}
+
+.ros-bg {
+  background-image: url("https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=2000&q=80");
+  background-size: cover;
+}
+
+.raspberry-bg {
+  background-image: url("https://images.unsplash.com/photo-1597781914467-a5b93258e748?auto=format&fit=crop&w=2000&q=80");
+  background-size: cover;
+}
+
+.cv-bg {
+  background-image: url("https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=2000&q=80");
+  background-size: cover;
+}
+
+.track-card {
+  transition: all 0.3s ease;
+}
+
+.track-card:hover {
+  transform: translateY(-5px);
+}
+
+.content-overlay {
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(5px);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.geometric-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0);
+  background-size: 40px 40px;
+}
+
+.lightning-bolt {
+  transform-origin: top;
+  animation: lightningFlash 2s infinite;
+}
+
+.lightning-bolt:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.lightning-bolt:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.path-animation {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: circuitFlow 10s linear infinite;
+}
+
+.power-pulse {
+  animation: powerPulse 2s infinite;
+}
