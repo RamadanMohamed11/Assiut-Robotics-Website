@@ -203,27 +203,21 @@ const About = () => {
                 className="flex-none w-full md:w-1/3 px-2 md:px-4 snap-center"
               >
                 <div 
-                  className={`relative h-full flex flex-col ${
+                  className={`relative flex flex-col min-h-[600px] ${
                     member.isHead ? 'transform scale-[1.02]' : ''
                   } ${
                     member.isHead 
                       ? 'bg-gradient-to-br from-blue-900/90 to-indigo-900/90 border-2 border-yellow-400' 
                       : 'bg-white/10'
-                  } backdrop-blur-sm rounded-xl p-4 md:p-6 text-center hover:border-blue-400/50 transition-all duration-500 ${
+                  } backdrop-blur-sm rounded-xl p-6 text-center hover:border-blue-400/50 transition-all duration-500 ${
                     isVisible ? 'animate-fade-in' : 'opacity-0'
                   }`}
-                  style={{ 
-                    animationDelay: `${index * 0.2}s`,
-                    minHeight: '400px'
-                  }}
+                  style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   {member.isHead && (
-                    <>
-                      
-                      <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-transparent animate-shine"></div>
-                      </div>
-                    </>
+                    <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl pointer-events-none">
+                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-transparent animate-shine"></div>
+                    </div>
                   )}
 
                   <div className="relative mt-6 mb-4">
@@ -239,7 +233,6 @@ const About = () => {
                           : 'border-white/20'
                       } hover:border-blue-400 transition-colors duration-300 object-cover`}
                     />
-                
                   </div>
                   
                   <div className="flex-grow">

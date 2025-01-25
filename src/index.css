@@ -4,14 +4,91 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Circuit Board Pattern Animation */
+@keyframes circuitFlow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* Electric Pulse Animation */
+@keyframes electricPulse {
+  0% {
+    box-shadow: 0 0 5px #4f46e5,
+                0 0 10px #4f46e5,
+                0 0 15px #4f46e5;
+  }
+  50% {
+    box-shadow: 0 0 10px #4f46e5,
+                0 0 20px #4f46e5,
+                0 0 30px #4f46e5;
+  }
+  100% {
+    box-shadow: 0 0 5px #4f46e5,
+                0 0 10px #4f46e5,
+                0 0 15px #4f46e5;
+  }
+}
+
+/* Voltage Surge Animation */
+@keyframes voltageSurge {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.5);
+  }
+}
+
+/* Circuit Connection Animation */
+@keyframes connectCircuit {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.3;
+  }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideIn {
-  from { transform: translateX(-100px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from { 
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes pulse {
@@ -47,11 +124,6 @@
   50% { opacity: 1; transform: scaleY(1); }
 }
 
-@keyframes circuitFlow {
-  0% { stroke-dashoffset: 1000; }
-  100% { stroke-dashoffset: 0; }
-}
-
 @keyframes powerPulse {
   0% { text-shadow: 0 0 5px rgba(96, 165, 250, 0.5); }
   50% { text-shadow: 0 0 20px rgba(96, 165, 250, 0.8), 0 0 30px rgba(96, 165, 250, 0.6); }
@@ -59,16 +131,62 @@
 }
 
 @keyframes shine {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 body {
   font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+}
+
+/* Circuit Board Background */
+.circuit-pattern {
+  background-color: #0a1929;
+  background-image: 
+    linear-gradient(rgba(79, 70, 229, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 70, 229, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  animation: circuitFlow 20s linear infinite;
+}
+
+/* Electric Border Effect */
+.electric-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.electric-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #4f46e5, #60a5fa, #4f46e5);
+  animation: electricPulse 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+/* Voltage Lines */
+.voltage-line {
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, #4f46e5, transparent);
+  animation: voltageSurge 2s ease-in-out infinite;
+}
+
+/* Circuit Paths */
+.circuit-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: connectCircuit 4s linear infinite;
+}
+
+/* Page Transitions */
+.page-enter {
+  animation: pageEnter 0.5s ease-out forwards;
 }
 
 .animate-fade-in {
@@ -76,7 +194,7 @@ body {
 }
 
 .animate-slide-in {
-  animation: slideIn 0.8s ease-out;
+  animation: slideIn 0.8s ease-out forwards;
 }
 
 .animate-pulse-slow {
@@ -95,10 +213,6 @@ body {
   animation: rotate 20s linear infinite;
 }
 
-.animate-shine {
-  animation: shine 3s infinite linear;
-}
-
 .shimmer {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
   background-size: 1000px 100%;
@@ -106,55 +220,20 @@ body {
 }
 
 .hero-pattern {
-  background-color: #1e3a8a;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f46e5' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  @apply circuit-pattern;
+  position: relative;
+  overflow: hidden;
 }
 
-.hardware-bg {
-  background-image: url("https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=2000&q=80");
-  background-size: cover;
-}
-
-.embedded-bg {
-  background-image: url("https://images.unsplash.com/photo-1553406830-ef2513450d76?auto=format&fit=crop&w=2000&q=80");
-  background-size: cover;
-}
-
-.ros-bg {
-  background-image: url("https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=2000&q=80");
-  background-size: cover;
-}
-
-.raspberry-bg {
-  background-image: url("https://images.unsplash.com/photo-1597781914467-a5b93258e748?auto=format&fit=crop&w=2000&q=80");
-  background-size: cover;
-}
-
-.cv-bg {
-  background-image: url("https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&w=2000&q=80");
-  background-size: cover;
-}
-
-.track-card {
-  transition: all 0.3s ease;
-}
-
-.track-card:hover {
-  transform: translateY(-5px);
-}
-
-.content-overlay {
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(5px);
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.hero-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(79, 70, 229, 0.2) 0%, transparent 70%);
+  animation: pulse 4s ease-in-out infinite;
 }
 
 .geometric-pattern {
@@ -167,20 +246,26 @@ body {
   animation: lightningFlash 2s infinite;
 }
 
-.lightning-bolt:nth-child(2) {
-  animation-delay: 0.5s;
-}
-
-.lightning-bolt:nth-child(3) {
-  animation-delay: 1s;
-}
-
-.path-animation {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: circuitFlow 10s linear infinite;
-}
-
 .power-pulse {
   animation: powerPulse 2s infinite;
+}
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2);
 }
