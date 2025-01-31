@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bot, Cpu, Eye, Home, Laptop, CircuitBoard, Zap } from 'lucide-react';
+import { Bot, Eye, Home, Laptop, CircuitBoard } from 'lucide-react';
 
 const Navbar = () => {
   return (
@@ -9,7 +9,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-20">
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center group-hover:bg-white/20 transition-colors duration-300">
-              <Zap size={32} className="text-blue-400 group-hover:text-blue-300 transition-colors duration-300 animate-pulse-slow" />
+              <Bot size={32} className="text-blue-400 group-hover:text-blue-300 transition-colors duration-300 animate-pulse-slow" />
             </div>
             <span className="font-bold text-2xl">Assiut Robotics</span>
           </Link>
@@ -17,8 +17,7 @@ const Navbar = () => {
             <NavLink to="/" icon={<Home size={20} />} text="Home" />
             <NavLink to="/hardware" icon={<Laptop size={20} />} text="Hardware" />
             <NavLink to="/embedded" icon={<CircuitBoard size={20} />} text="Embedded" />
-            <NavLink to="/ros" icon={<Bot size={20} />} text="ROS" />
-            <NavLink to="/raspberry" icon={<Cpu size={20} />} text="Raspberry" />
+            <NavLink to="/ros" icon={<Bot size={20} />} text="ROS & Raspberry" />
             <NavLink to="/computer-vision" icon={<Eye size={20} />} text="Computer Vision" />
           </div>
           <div className="w-14 h-14 rounded-full overflow-hidden">

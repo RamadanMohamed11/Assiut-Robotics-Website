@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bot, Cpu, Eye, Home, Laptop, CircuitBoard, Zap } from 'lucide-react';
+import { Bot, Eye, Home, Laptop, CircuitBoard } from 'lucide-react';
 import About from '../components/About';
 import Score from '../components/Score';
 import Assistants from '../components/Assistants';
@@ -37,18 +37,11 @@ const HomePage = () => {
                 borderColor: "border-blue-200"
               },
               {
-                title: "ROS",
-                description: "Explore Robot Operating System fundamentals",
+                title: "ROS & Raspberry",
+                description: "Explore Robot Operating System and Raspberry Pi development",
                 link: "/ros",
                 icon: <Bot className="w-8 h-8 mb-4 text-green-600" />,
                 borderColor: "border-green-200"
-              },
-              {
-                title: "Raspberry Pi",
-                description: "Build projects with single-board computers",
-                link: "/raspberry",
-                icon: <Cpu className="w-8 h-8 mb-4 text-purple-600" />,
-                borderColor: "border-purple-200"
               },
               {
                 title: "Computer Vision",

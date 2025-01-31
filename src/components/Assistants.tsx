@@ -1,48 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
-
-const assistantMembers = [
-  
-  {
-    name: "Mohamed Atef",
-    role: "Electronics, PCB & Python",
-    image: "https://res.cloudinary.com/dhjyfpw6f/image/upload/v1737736366/WhatsApp_Image_2025-01-24_at_18.04.50_3baef0f7_zwg1xn.jpg",
-    bio: "Faculty of Science, Physics and Electronics Section",
-    linkedin: "https://www.linkedin.com/in/mohamed-atef-othman-140859288/",
-    whatsapp: "https://wa.me/+201091307530"
-  },
-  {
-    name: "Renad Radwan",
-    role: "Circuits",
-    image: "https://res.cloudinary.com/dhjyfpw6f/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1737651791/fff82686c6fe583253ddd8411980c5e1_as9okv.jpg",
-    bio: "Faculty of Engineering, Department of Electrical Engineering, Computer & Control Section.",
-    linkedin: "https://www.linkedin.com/in/renad-radwan-b5492b307/",
-    whatsapp: "https://wa.me/+201123350113"
-  },
-  {
-    name: "Manar Hamada",
-    role: "Electronics",
-    image: "https://res.cloudinary.com/dhjyfpw6f/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1737651791/fff82686c6fe583253ddd8411980c5e1_as9okv.jpg",
-    bio: "Faculty of Engineering, Department of Electrical Engineering, Communications Section.",
-    linkedin: "https://www.linkedin.com/in/manar-hamada-341b1524b/",
-    whatsapp: "https://wa.me/+201121438710"
-  },
-  {
-    name: "Moataz Hesham",
-    role: "ROS",
-    image: "https://res.cloudinary.com/dhjyfpw6f/image/upload/v1737736465/WhatsApp_Image_2025-01-24_at_18.33.35_9cadb1d6_kwvr7p.jpg",
-    bio: "Faculty of Engineering, Department of Mechanical Engineering, Mechatronics Section.",
-    whatsapp: "https://wa.me/+201553705814"
-  },
-  {
-    name: "Mahmoud Ragab",
-    role: "ROS",
-    image: "https://res.cloudinary.com/dhjyfpw6f/image/upload/v1737737410/WhatsApp_Image_2025-01-24_at_18.49.35_92f1da08_a97mpy.jpg",
-    bio: "Faculty of Engineering, Department of Mechanical Engineering, Mechatronics Section.",
-    linkedin: "https://www.linkedin.com/in/mahmoud-ragab-8b72972b2/",
-    whatsapp: "https://wa.me/+201552593770"
-  }
-];
+import { fetchTeamData, TeamMember } from './TeamData';
 
 const Assistants = () => {
   const scrollContainerRef = useRef(null);
@@ -51,6 +9,26 @@ const Assistants = () => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [totalSlides, setTotalSlides] = useState(0);
+  const [assistantMembers, setAssistantMembers] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAssistants = async () => {
+      try {
+        const data = await fetchTeamData();
+        const assistants = data.filter(member => member.as === 'Assistant');
+        setAssistantMembers(assistants);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to load assistant members');
+        setLoading(false);
+      }
+    };
+
+    fetchAssistants();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,10 +40,21 @@ const Assistants = () => {
 
     if (scrollContainerRef.current) {
       observer.observe(scrollContainerRef.current);
+      // Calculate total number of slides based on viewport width
+      const calculateSlides = () => {
+        const containerWidth = scrollContainerRef.current.offsetWidth;
+        const itemWidth = containerWidth / 3; // 3 items per view on desktop
+        setTotalSlides(Math.ceil(assistantMembers.length / (containerWidth >= 768 ? 3 : 1)));
+      };
+      
+      calculateSlides();
+      window.addEventListener('resize', calculateSlides);
+      return () => {
+        observer.disconnect();
+        window.removeEventListener('resize', calculateSlides);
+      };
     }
-
-    return () => observer.disconnect();
-  }, []);
+  }, [assistantMembers.length]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -98,6 +87,22 @@ const Assistants = () => {
     setActiveIndex(index);
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-[400px] flex items-center justify-center bg-gradient-to-b from-indigo-900 to-blue-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-[400px] flex items-center justify-center bg-gradient-to-b from-indigo-900 to-blue-900 text-red-400">
+        {error}
+      </div>
+    );
+  }
+
   return (
     <section className="py-20 bg-gradient-to-b from-indigo-900 to-blue-900 overflow-hidden relative">
       <div className="absolute inset-0 geometric-pattern opacity-20"></div>
@@ -121,7 +126,7 @@ const Assistants = () => {
           </button>
 
           <button
-            onClick={() => scrollTo(Math.min(assistantMembers.length - 1, activeIndex + 1))}
+            onClick={() => scrollTo(Math.min(totalSlides - 1, activeIndex + 1))}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           >
             <ChevronRight size={24} />
@@ -154,23 +159,23 @@ const Assistants = () => {
                   <div className="relative inline-block mb-6">
                     <div className="absolute inset-0 bg-indigo-500 rounded-full animate-pulse-slow opacity-20"></div>
                     <img
-                      src={member.image}
+                      src={member.imageLink}
                       alt={member.name}
-                      className="w-32 h-32 rounded-full relative z-10 animate-float border-4 border-white/20 hover:border-indigo-400 transition-colors duration-300"
+                      className="w-32 h-32 rounded-full relative z-10 animate-float border-4 border-white/20 hover:border-indigo-400 transition-colors duration-300 object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full animate-rotate opacity-20"></div>
                   </div>
                   
                   <h3 className="text-xl font-semibold text-white mb-2">{member.name}</h3>
                   <p className="text-indigo-200 mb-3 shimmer">{member.role}</p>
-                  <p className="text-gray-300 mb-6">{member.bio}</p>
+                  <p className="text-gray-300 mb-6">{member.about}</p>
                   
                   <div className="flex justify-center space-x-4">
                     {[
                       { icon: <Github size={20} />, href: member.github, label: "GitHub" },
-                      { icon: <Linkedin size={20} />, href: member.linkedin, label: "LinkedIn" },
+                      { icon: <Linkedin size={20} />, href: member.linkedinLink, label: "LinkedIn" },
                       { icon: <Mail size={20} />, href: member.email, label: "Email" },
-                      { icon: <MessageCircle size={20} />, href: member.whatsapp, label: "WhatsApp" }
+                      { icon: <MessageCircle size={20} />, href: member.whatsappLink, label: "WhatsApp" }
                     ].map((social, i) => (
                       social.href && (
                         <a
@@ -192,7 +197,7 @@ const Assistants = () => {
           </div>
 
           <div className="flex justify-center mt-8 space-x-2">
-            {assistantMembers.map((_, index) => (
+            {[...Array(totalSlides)].map((_, index) => (
               <button
                 key={index}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${

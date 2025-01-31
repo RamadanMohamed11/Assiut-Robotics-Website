@@ -1,26 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
-
-const hrMembers = [
-  {
-    id: 1,
-    name: "Youssef AbdelAal",
-    role: "HR",
-    image: "https://res.cloudinary.com/dhjyfpw6f/image/upload/v1737732272/WhatsApp_Image_2025-01-24_at_17.19.58_76d9da22_w1xclb.jpg",
-    bio: "Faculty of Engineering, Department of Electrical Engineering, Power Section.",
-    linkedin: "https://www.linkedin.com/in/youssef-abdelaal-007558289/",
-    whatsapp: "https://wa.me/+201147312206"
-  },
-  {
-    id: 2,
-    name: "Mohamed Samy",
-    role: "HR",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&h=400&q=80",
-    bio: "Faculty of Engineering, Department of Electrical Engineering, Power Section.",
-    linkedin: "https://linkedin.com",
-    whatsapp: "https://wa.me/+201094793331"
-  },
-];
+import { fetchTeamData, TeamMember } from './TeamData';
 
 const HRs = () => {
   const scrollContainerRef = useRef(null);
@@ -29,6 +9,26 @@ const HRs = () => {
   const [scrollLeft, setScrollLeft] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [hrMembers, setHrMembers] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [totalSlides, setTotalSlides] = useState(0);
+
+  useEffect(() => {
+    const fetchHRs = async () => {
+      try {
+        const data = await fetchTeamData();
+        const hrs = data.filter(member => member.as === 'HR');
+        setHrMembers(hrs);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to load HR members');
+        setLoading(false);
+      }
+    };
+
+    fetchHRs();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -40,10 +40,20 @@ const HRs = () => {
 
     if (scrollContainerRef.current) {
       observer.observe(scrollContainerRef.current);
+      const calculateSlides = () => {
+        const containerWidth = scrollContainerRef.current.offsetWidth;
+        const itemWidth = containerWidth / 3; // 3 items per view on desktop
+        setTotalSlides(Math.ceil(hrMembers.length / (containerWidth >= 768 ? 3 : 1)));
+      };
+      
+      calculateSlides();
+      window.addEventListener('resize', calculateSlides);
+      return () => {
+        observer.disconnect();
+        window.removeEventListener('resize', calculateSlides);
+      };
     }
-
-    return () => observer.disconnect();
-  }, []);
+  }, [hrMembers.length]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -76,6 +86,22 @@ const HRs = () => {
     setActiveIndex(index);
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-[400px] flex items-center justify-center bg-gradient-to-b from-blue-900 to-purple-900">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-[400px] flex items-center justify-center bg-gradient-to-b from-blue-900 to-purple-900 text-red-400">
+        {error}
+      </div>
+    );
+  }
+
   return (
     <section className="py-20 bg-gradient-to-b from-blue-900 to-purple-900 overflow-hidden relative">
       <div className="absolute inset-0 geometric-pattern opacity-20"></div>
@@ -99,7 +125,7 @@ const HRs = () => {
           </button>
 
           <button
-            onClick={() => scrollTo(Math.min(hrMembers.length - 1, activeIndex + 1))}
+            onClick={() => scrollTo(Math.min(totalSlides - 1, activeIndex + 1))}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           >
             <ChevronRight size={24} />
@@ -118,41 +144,41 @@ const HRs = () => {
               WebkitOverflowScrolling: 'touch',
             }}
           >
-            {hrMembers.map((member) => (
+            {hrMembers.map((member, index) => (
               <div 
-                key={member.id}
+                key={`${member.name}-${index}`}
                 className="flex-none w-full md:w-[calc(100%/3)] snap-center px-4"
               >
                 <div 
                   className={`bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center h-full border border-white/10 hover:border-purple-400/50 transition-all duration-500 ${
                     isVisible ? 'animate-fade-in' : 'opacity-0'
                   }`}
-                  style={{ animationDelay: `${member.id * 0.2}s` }}
+                  style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   <div className="relative inline-block mb-6">
                     <div className="absolute inset-0 bg-purple-500 rounded-full animate-pulse-slow opacity-20"></div>
                     <img
-                      src={member.image}
+                      src={member.imageLink}
                       alt={member.name}
-                      className="w-32 h-32 rounded-full relative z-10 animate-float border-4 border-white/20 hover:border-purple-400 transition-colors duration-300"
+                      className="w-32 h-32 rounded-full relative z-10 animate-float border-4 border-white/20 hover:border-purple-400 transition-colors duration-300 object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-rotate opacity-20"></div>
                   </div>
                   
                   <h3 className="text-xl font-semibold text-white mb-2">{member.name}</h3>
                   <p className="text-purple-200 mb-3 shimmer">{member.role}</p>
-                  <p className="text-gray-300 mb-6">{member.bio}</p>
+                  <p className="text-gray-300 mb-6">{member.about}</p>
                   
                   <div className="flex justify-center space-x-4">
                     {[
                       { icon: <Github size={20} />, href: member.github, label: "GitHub" },
-                      { icon: <Linkedin size={20} />, href: member.linkedin, label: "LinkedIn" },
+                      { icon: <Linkedin size={20} />, href: member.linkedinLink, label: "LinkedIn" },
                       { icon: <Mail size={20} />, href: member.email, label: "Email" },
-                      { icon: <MessageCircle size={20} />, href: member.whatsapp, label: "WhatsApp" }
+                      { icon: <MessageCircle size={20} />, href: member.whatsappLink, label: "WhatsApp" }
                     ].map((social, i) => (
                       social.href && (
                         <a
-                          key={i}
+                          key={`${member.name}-${social.label}-${i}`}
                           href={social.href}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -170,9 +196,9 @@ const HRs = () => {
           </div>
 
           <div className="flex justify-center mt-8 space-x-2">
-            {hrMembers.map((_, index) => (
+            {[...Array(totalSlides)].map((_, index) => (
               <button
-                key={index}
+                key={`slide-dot-${index}`}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   activeIndex === index 
                     ? 'bg-purple-500 w-6' 

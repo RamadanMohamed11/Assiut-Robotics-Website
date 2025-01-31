@@ -5,7 +5,6 @@ import HomePage from './pages/HomePage';
 import Hardware from './pages/Hardware';
 import EmbeddedSystem from './pages/EmbeddedSystem';
 import ROS from './pages/ROS';
-import Raspberry from './pages/Raspberry';
 import ComputerVision from './pages/ComputerVision';
 import SubjectTasks from './components/SubjectTasks';
 import Footer from './components/Footer';
@@ -23,8 +22,6 @@ function App() {
           <Route path="/embedded/:subject" element={<SubjectTasks />} />
           <Route path="/ros" element={<ROS />} />
           <Route path="/ros/:subject" element={<SubjectTasks />} />
-          <Route path="/raspberry" element={<Raspberry />} />
-          <Route path="/raspberry/:subject" element={<SubjectTasks />} />
           <Route path="/computer-vision" element={<ComputerVision />} />
           <Route path="/computer-vision/:subject" element={<SubjectTasks />} />
         </Routes>

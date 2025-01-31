@@ -17,34 +17,28 @@ const ROS = () => {
     },
     {
       id: 3,
-      title: 'Devices',
-      description: 'Work with robotic devices, sensors, and actuators',
-      link: 'https://forms.google.com/ros-devices'
+      title: 'ROS2',
+      description: 'Learn ROS2 fundamentals, nodes, topics, services, and navigation',
+      link: 'https://forms.google.com/ros-ros2'
     },
     {
       id: 4,
-      title: 'Electronics',
-      description: 'Study electronics fundamentals for robotics applications',
-      link: 'https://forms.google.com/ros-electronics'
+      title: 'Raspberry',
+      description: 'Master Raspberry Pi setup, GPIO programming, and robotics integration',
+      link: 'https://forms.google.com/ros-raspberry'
     },
     {
       id: 5,
-      title: 'Digital Systems',
-      description: 'Learn digital systems and interfacing for robotics',
-      link: 'https://forms.google.com/ros-digital'
-    },
-    {
-      id: 6,
       title: 'Final Project',
-      description: 'Build a complete robotics project using ROS and Raspberry Pi',
+      description: 'Build a complete robotics project using ROS2 and Raspberry Pi',
       link: 'https://forms.google.com/ros-final'
     }
   ];
 
   return (
     <TrackLayout
-      title="ROS & Raspberry Pi Track"
-      description="Master robotics development through ROS, Python programming, and hardware integration"
+      title="ROS & Raspberry Track"
+      description="Master robotics development through ROS2, Raspberry Pi, and Python programming"
       tasks={tasks}
     />
   );
