@@ -23,18 +23,24 @@ const EmbeddedSystem = () => {
     },
     {
       id: 4,
+      title: 'Embedded System (AVR)',
+      description: 'Learn AVR microcontroller programming, peripherals, and bare-metal development',
+      link: 'https://forms.google.com/embedded-avr'
+    },
+    {
+      id: 5,
       title: 'Devices',
       description: 'Work with various electronic devices, sensors, and communication protocols',
       link: 'https://forms.google.com/embedded-devices'
     },
     {
-      id: 5,
+      id: 6,
       title: 'Digital Electronics',
       description: 'Learn digital logic, combinational and sequential circuits',
       link: 'https://forms.google.com/embedded-digital'
     },
     {
-      id: 6,
+      id: 7,
       title: 'Final Project',
       description: 'Develop a complete embedded system project integrating all learned concepts',
       link: 'https://forms.google.com/embedded-final'
