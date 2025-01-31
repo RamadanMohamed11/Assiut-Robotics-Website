@@ -47,25 +47,42 @@ const SubjectTasks = () => {
             };
           });
 
-        // Create a map of subject aliases
+        // Create a map of subject aliases with more specific matching
         const subjectAliases = {
-          'python': ['python', 'python programming', 'programming'],
-          'ros': ['ros', 'robot operating system'],
-          'embedded': ['embedded', 'embedded systems', 'embedded system'],
-          'devices': ['devices', 'device', 'hardware devices'],
+          'python': ['python programming', 'python'],
+          'c programming': ['c programming', 'c lang', 'c language'],
+          'electronics': ['electronics', 'electronic'],
+          'arduino': ['arduino', 'arduino programming'],
+          'embedded system (avr)': ['embedded system (avr)', 'avr', 'embedded avr'],
+          'devices': ['devices', 'hardware devices'],
+          'digital electronics': ['digital electronics', 'digital'],
           'computer vision': ['computer vision', 'vision', 'cv'],
           'raspberry': ['raspberry', 'raspberry pi', 'raspi'],
-          'hardware': ['hardware', 'electronics', 'circuits']
+          'hardware': ['hardware', 'electronics hardware'],
+          'ros': ['ros', 'robot operating system'],
+          'linux commands': ['linux commands', 'linux', 'bash']
         };
 
-        // Function to normalize subject names
+        // Function to normalize subject names with exact matching
         const normalizeSubjectName = (name: string): string => {
-          const lowerName = name.toLowerCase();
+          const lowerName = name.toLowerCase().trim();
+          
+          // First try exact match
           for (const [key, aliases] of Object.entries(subjectAliases)) {
             if (aliases.includes(lowerName)) {
               return key;
             }
           }
+          
+          // If no exact match, try partial match
+          for (const [key, aliases] of Object.entries(subjectAliases)) {
+            for (const alias of aliases) {
+              if (lowerName.includes(alias) || alias.includes(lowerName)) {
+                return key;
+              }
+            }
+          }
+          
           return lowerName;
         };
 
@@ -153,10 +170,12 @@ const SubjectTasks = () => {
   }
 
   // Find tasks for the current subject using normalized name
-  const normalizedSubjectTitle = subject.title.toLowerCase();
+  const normalizedSubjectTitle = subject.title.toLowerCase().trim();
   const subjectTasks = Object.entries(tasks).reduce((found, [key, taskList]) => {
-    if (key.toLowerCase().includes(normalizedSubjectTitle) || 
-        normalizedSubjectTitle.includes(key.toLowerCase())) {
+    const normalizedKey = key.toLowerCase().trim();
+    if (normalizedKey === normalizedSubjectTitle || 
+        normalizedSubjectTitle.includes(normalizedKey) || 
+        normalizedKey.includes(normalizedSubjectTitle)) {
       return taskList;
     }
     return found;
