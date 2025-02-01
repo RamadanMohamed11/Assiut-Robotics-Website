@@ -20,6 +20,7 @@ const SubjectTasks = () => {
   const [tasks, setTasks] = useState<TasksData>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [debug, setDebug] = useState<string>('');
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -29,13 +30,11 @@ const SubjectTasks = () => {
         );
         const text = await response.text();
         
-        // Parse CSV and group by subject
         const rows = text.split('\n')
-          .slice(1) // Skip header row
+          .slice(1)
           .map(row => {
             const [subjectName, taskNumber, link, deadline] = row.split(',').map(cell => cell.replace(/"/g, '').trim());
             
-            // Only process deadline if it exists and is not empty
             const deadlineDate = deadline ? new Date(deadline) : null;
             const isOverdue = deadlineDate ? deadlineDate < new Date() : false;
             
@@ -47,53 +46,41 @@ const SubjectTasks = () => {
             };
           });
 
-        // Create a map of subject aliases with more specific matching
         const subjectAliases = {
-          'python': ['python programming', 'python'],
+          'python programming': ['python programming', 'python', 'python lang', 'python language'],
           'c programming': ['c programming', 'c lang', 'c language'],
           'electronics': ['electronics', 'electronic'],
+          'digital electronics': ['digital electronics', 'digital'],
+          'pcb design': ['pcb design', 'pcb'],
           'arduino': ['arduino', 'arduino programming'],
           'embedded system (avr)': ['embedded system (avr)', 'avr', 'embedded avr'],
           'devices': ['devices', 'hardware devices'],
-          'digital electronics': ['digital electronics', 'digital'],
           'computer vision': ['computer vision', 'vision', 'cv'],
+          'ros2': ['ros2', 'ros', 'robot operating system'],
           'raspberry': ['raspberry', 'raspberry pi', 'raspi'],
           'hardware': ['hardware', 'electronics hardware'],
-          'ros': ['ros', 'robot operating system'],
-          'linux commands': ['linux commands', 'linux', 'bash']
+          'linux commands': ['linux commands', 'linux', 'bash'],
+          'circuits': ['circuits', 'circuit']
         };
 
-        // Function to normalize subject names with exact matching
         const normalizeSubjectName = (name: string): string => {
           const lowerName = name.toLowerCase().trim();
           
-          // First try exact match
           for (const [key, aliases] of Object.entries(subjectAliases)) {
             if (aliases.includes(lowerName)) {
               return key;
             }
           }
           
-          // If no exact match, try partial match
-          for (const [key, aliases] of Object.entries(subjectAliases)) {
-            for (const alias of aliases) {
-              if (lowerName.includes(alias) || alias.includes(lowerName)) {
-                return key;
-              }
-            }
-          }
-          
           return lowerName;
         };
 
-        // Group tasks by normalized subject name
         const groupedTasks = rows.reduce((acc, row) => {
           const normalizedSubject = normalizeSubjectName(row.subject);
           if (!acc[normalizedSubject]) {
             acc[normalizedSubject] = [];
           }
           
-          // Only add the task if it's not already present
           const existingTask = acc[normalizedSubject].find(t => t.taskNumber === row.taskNumber);
           if (!existingTask) {
             acc[normalizedSubject].push({
@@ -106,10 +93,12 @@ const SubjectTasks = () => {
           return acc;
         }, {} as TasksData);
 
-        // Sort tasks by task number for each subject
         Object.keys(groupedTasks).forEach(subject => {
           groupedTasks[subject].sort((a, b) => a.taskNumber - b.taskNumber);
         });
+
+        const debugInfo = `Available subjects: ${Object.keys(groupedTasks).join(', ')}`;
+        setDebug(debugInfo);
 
         setTasks(groupedTasks);
         setLoading(false);
@@ -169,17 +158,8 @@ const SubjectTasks = () => {
     );
   }
 
-  // Find tasks for the current subject using normalized name
-  const normalizedSubjectTitle = subject.title.toLowerCase().trim();
-  const subjectTasks = Object.entries(tasks).reduce((found, [key, taskList]) => {
-    const normalizedKey = key.toLowerCase().trim();
-    if (normalizedKey === normalizedSubjectTitle || 
-        normalizedSubjectTitle.includes(normalizedKey) || 
-        normalizedKey.includes(normalizedSubjectTitle)) {
-      return taskList;
-    }
-    return found;
-  }, [] as Task[]);
+  const currentSubject = subject.title.toLowerCase().trim();
+  const subjectTasks = tasks[currentSubject] || [];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 py-16 px-4 animate-fade-in">
@@ -195,6 +175,7 @@ const SubjectTasks = () => {
         <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 mb-8 animate-slide-in" style={{ animationDelay: '0.2s' }}>
           <h1 className="text-4xl font-bold text-white mb-4">{subject.title}</h1>
           <p className="text-blue-200 text-lg">{subject.description}</p>
+          <p className="text-xs text-gray-400 mt-4">{debug}</p>
         </div>
 
         <div className="space-y-6">

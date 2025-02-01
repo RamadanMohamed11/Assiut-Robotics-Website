@@ -31,7 +31,7 @@ const Hardware = () => {
       id: 5,
       title: 'Digital Electronics',
       description: 'Study digital logic design, sequential circuits, and digital systems',
-      link: 'https://forms.gle/hardware-digital'
+      link: 'https://forms.gle/hardware-digital-electronics'
     },
     {
       id: 6,
@@ -50,4 +50,4 @@ const Hardware = () => {
   );
 };
 
-export default Hardware
+export default Hardware;

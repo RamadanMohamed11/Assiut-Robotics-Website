@@ -17,7 +17,9 @@ const TrackLayout = ({ title, description, tasks }) => {
 
   const handleSubjectClick = (subject) => {
     const path = window.location.pathname;
-    navigate(`${path}/${subject.title.toLowerCase().replace(/\s+/g, '-')}`, { state: { subject } });
+    navigate(`${path}/${subject.title.toLowerCase().replace(/\s+/g, '-')}`, { 
+      state: { subject } 
+    });
   };
 
   return (
@@ -40,9 +42,9 @@ const TrackLayout = ({ title, description, tasks }) => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {tasks.map((task, index) => (
+          {Array.isArray(tasks) && tasks.map((task, index) => (
             <div 
-              key={task.id} 
+              key={task.id || index} 
               onClick={() => handleSubjectClick(task)}
               className="electric-border content-overlay p-8 rounded-xl shadow-lg transition-all duration-500 animate-slide-in cursor-pointer card-hover backdrop-blur-sm"
               style={{ animationDelay: `${index * 0.2}s` }}

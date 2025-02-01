@@ -19,27 +19,27 @@ const Score = () => {
     { id: 'all', name: 'All Tracks', icon: <Zap /> },
     { id: 'Hardware', name: 'Hardware', icon: <Laptop /> },
     { id: 'Vision', name: 'Computer Vision', icon: <Eye /> },
-    { id: 'ROS', name: 'ROS', icon: <Bot /> },
-    { id: 'Raspberry Pi', name: 'Raspberry Pi', icon: <Cpu /> },
+    { id: 'ROS & Raspberry', name: 'ROS & Raspberry', icon: <Bot /> },
     { id: 'Embedded', name: 'Embedded', icon: <CircuitBoard /> },
   ];
 
   const fetchData = async () => {
     try {
-      // Add timestamp to URL to prevent caching
       const response = await fetch(
         `https://docs.google.com/spreadsheets/d/1TB8vtdLAdZnwQVKNDhWueD0GG6znEPkVpa2N5VwXjeY/gviz/tq?tqx=out:csv&timestamp=${Date.now()}`
       );
       const text = await response.text();
       
       const rows = text.split('\n')
-        .slice(1) // Skip header row
+        .slice(1)
         .map(row => {
           const [name, score, track] = row.split(',').map(cell => cell.replace(/"/g, '').trim());
+          // Normalize track names to combine ROS and Raspberry Pi
+          const normalizedTrack = track === 'ROS' || track === 'Raspberry Pi' ? 'ROS & Raspberry' : track;
           return {
             name,
             score: Number(score),
-            track
+            track: normalizedTrack
           };
         })
         .filter(item => item.name && !isNaN(item.score));
@@ -71,13 +71,8 @@ const Score = () => {
   };
 
   useEffect(() => {
-    // Initial fetch
     fetchData();
-
-    // Set up polling every 60 seconds
     const intervalId = setInterval(fetchData, 60000);
-
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
@@ -129,24 +124,10 @@ const Score = () => {
 
   return (
     <section className="py-20 bg-gradient-to-b from-indigo-900 to-blue-900 relative overflow-hidden">
-      {/* Electrical Animation Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="lightning-bolt absolute top-0 left-1/4 w-px h-32 bg-blue-400/50"></div>
-        <div className="lightning-bolt absolute top-20 right-1/3 w-px h-48 bg-blue-400/50"></div>
-        <div className="lightning-bolt absolute bottom-40 left-1/3 w-px h-24 bg-blue-400/50"></div>
-        <div className="circuit-path absolute top-0 left-0 w-full h-full opacity-20">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M0,50 Q50,50 100,50 T200,50 T300,50 T400,50"
-              fill="none"
-              stroke="currentColor"
-              className="text-blue-400 path-animation"
-            />
-          </svg>
-        </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-4 relative">
+      <div className="absolute inset-0 geometric-pattern opacity-20"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-indigo-900/50"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 relative">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-bold text-white mb-4 animate-fade-in">
             Track Leaderboards

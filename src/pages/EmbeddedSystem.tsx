@@ -43,7 +43,7 @@ const EmbeddedSystem = () => {
       id: 7,
       title: 'Digital Electronics',
       description: 'Learn digital logic, combinational and sequential circuits',
-      link: 'https://forms.gle/embedded-digital'
+      link: 'https://forms.gle/embedded-digital-electronics'
     },
     {
       id: 8,
@@ -62,4 +62,4 @@ const EmbeddedSystem = () => {
   );
 };
 
-export default EmbeddedSystem
+export default EmbeddedSystem;

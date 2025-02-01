@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronLeft, ChevronRight, MessageCircle, Globe } from 'lucide-react';
 import { fetchTeamData, TeamMember } from './TeamData';
 
 const About = () => {
@@ -197,7 +197,8 @@ const About = () => {
                       { icon: <Github size={18} />, href: member.github, label: "GitHub" },
                       { icon: <Linkedin size={18} />, href: member.linkedinLink, label: "LinkedIn" },
                       { icon: <Mail size={18} />, href: member.email, label: "Email" },
-                      { icon: <MessageCircle size={18} />, href: member.whatsappLink, label: "WhatsApp" }
+                      { icon: <MessageCircle size={18} />, href: member.whatsappLink, label: "WhatsApp" },
+                      { icon: <Globe size={18} />, href: member.portfolio, label: "Portfolio" }
                     ].map((social, i) => (
                       social.href && (
                         <a

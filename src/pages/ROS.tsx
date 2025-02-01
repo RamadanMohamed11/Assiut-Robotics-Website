@@ -4,40 +4,29 @@ import TrackLayout from '../components/TrackLayout';
 const ROS = () => {
   const tasks = [
     {
-      id: 1,
-      title: 'Circuits',
-      description: 'Learn circuit analysis, components, and design principles',
-      link: 'https://forms.gle/ros-circuits'
-    },
-    {
-      id: 2,
+      id: 'linux',
       title: 'Linux Commands',
       description: 'Master essential Linux commands, shell scripting, and system administration',
-      link: 'https://forms.gle/ros-linux'
     },
     {
-      id: 3,
+      id: 'python',
       title: 'Python Programming',
       description: 'Learn Python programming for robotics and ROS applications',
-      link: 'https://forms.gle/ros-python'
     },
     {
-      id: 4,
+      id: 'ros2',
       title: 'ROS2',
       description: 'Learn ROS2 fundamentals, nodes, topics, services, and navigation',
-      link: 'https://forms.gle/ros-ros2'
     },
     {
-      id: 5,
+      id: 'raspberry',
       title: 'Raspberry',
       description: 'Master Raspberry Pi setup, GPIO programming, and robotics integration',
-      link: 'https://forms.gle/ros-raspberry'
     },
     {
-      id: 6,
+      id: 'final',
       title: 'Final Project',
       description: 'Build a complete robotics project using ROS2 and Raspberry Pi',
-      link: 'https://forms.gle/ros-final'
     }
   ];
 
@@ -50,4 +39,4 @@ const ROS = () => {
   );
 };
 
-export default ROS
+export default ROS;
