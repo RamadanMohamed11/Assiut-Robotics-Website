@@ -14,6 +14,11 @@ const ROS = () => {
       description: 'Learn Python programming for robotics and ROS applications',
     },
     {
+      id: 'circuits',
+      title: 'Circuits',
+      description: 'Learn basic electronic circuits, components, and wiring for robotics applications',
+    },
+    {
       id: 'ros2',
       title: 'ROS2',
       description: 'Learn ROS2 fundamentals, nodes, topics, services, and navigation',
