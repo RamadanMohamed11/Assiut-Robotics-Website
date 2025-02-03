@@ -22,6 +22,8 @@ const SubjectTasks = () => {
   const [error, setError] = useState<string | null>(null);
   const [debug, setDebug] = useState<string>('');
 
+  const SUBMISSION_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScMQizmZr9RhXdxm9q09E-5KV8utJRx5LlQFDsnC_YmpKqmBQ/viewform?usp=dialog';
+
   useEffect(() => {
     const fetchTasks = async () => {
       try {
@@ -226,7 +228,7 @@ const SubjectTasks = () => {
                     Click to view task details
                   </div>
                   <a
-                    href={task.link}
+                    href={SUBMISSION_FORM_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300"

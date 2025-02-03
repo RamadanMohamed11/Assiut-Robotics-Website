@@ -19,6 +19,11 @@ const ROS = () => {
       description: 'Learn basic electronic circuits, components, and wiring for robotics applications',
     },
     {
+      id: 'digital-electronics',
+      title: 'Digital Electronics',
+      description: 'Study digital logic, combinational circuits, and sequential systems for robotics',
+    },
+    {
       id: 'ros2',
       title: 'ROS2',
       description: 'Learn ROS2 fundamentals, nodes, topics, services, and navigation',
