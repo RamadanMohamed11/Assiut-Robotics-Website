@@ -17,6 +17,12 @@ const ComputerVision = () => {
     },
     {
       id: 3,
+      title: 'Computer Vision',
+      description: 'Learn image processing, feature detection, object recognition, and deep learning for computer vision',
+      link: 'https://forms.google.com/cv-vision'
+    },
+    {
+      id: 4,
       title: 'Final Project',
       description: 'Build a complete computer vision application integrating all learned concepts',
       link: 'https://forms.google.com/cv-final'
