@@ -4,24 +4,9 @@ import TrackLayout from '../components/TrackLayout';
 const ROS = () => {
   const tasks = [
     {
-      id: 'linux',
-      title: 'Linux Commands',
-      description: 'Master essential Linux commands, shell scripting, and system administration',
-    },
-    {
       id: 'python',
       title: 'Python Programming',
       description: 'Learn Python programming for robotics and ROS applications',
-    },
-    {
-      id: 'circuits',
-      title: 'Circuits',
-      description: 'Learn basic electronic circuits, components, and wiring for robotics applications',
-    },
-    {
-      id: 'digital-electronics',
-      title: 'Digital Electronics',
-      description: 'Study digital logic, combinational circuits, and sequential systems for robotics',
     },
     {
       id: 'ros2',
