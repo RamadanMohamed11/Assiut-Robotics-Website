@@ -22,7 +22,7 @@ const SubjectTasks = () => {
   const [error, setError] = useState<string | null>(null);
   const [debug, setDebug] = useState<string>('');
 
-  const SUBMISSION_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScMQizmZr9RhXdxm9q09E-5KV8utJRx5LlQFDsnC_YmpKqmBQ/viewform?usp=dialog';
+  const SUBMISSION_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSczLC-jlXYHihR6eJEBAf-I3T5DD6clXWo9SaCYbmbxxppavQ/viewform?usp=header';
 
   useEffect(() => {
     const fetchTasks = async () => {
